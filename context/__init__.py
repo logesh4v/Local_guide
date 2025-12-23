@@ -1,0 +1,1 @@
+# Context files for Local Guide AI
