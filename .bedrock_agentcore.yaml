@@ -1,148 +1,19 @@
-# AgentCore Configuration for Local Guide AI
-# Migration from Strands Agents to Bedrock AgentCore
+# Minimal AgentCore Configuration for Local Guide AI
+default_agent: "local_guide_ai"
 
-# Application Configuration
-app:
-  name: "Local Guide AI"
-  description: "Context-driven AI assistant for Tamil Nadu cities"
-  version: "2.0.0-agentcore"
-  
-# Runtime Configuration
-runtime:
-  # Main entrypoint for AgentCore
-  entrypoint: "agentcore_main:app"
-  
-  # Python runtime settings
-  python_version: "3.10"
-  
-  # Memory configuration (start with NO_MEMORY for initial deployment)
-  memory:
-    mode: "NO_MEMORY"  # Options: NO_MEMORY, STM_ONLY, STM_AND_LTM
-    
-  # Environment variables
-  environment:
-    AWS_REGION: "us-east-1"
-    DEBUG_MODE: "false"
-    LOG_LEVEL: "INFO"
-    
-  # Resource limits
-  resources:
-    memory_mb: 1024
-    timeout_seconds: 300
-    
-# Model Configuration
-model:
-  provider: "bedrock"
-  model_id: "us.amazon.nova-premier-v1:0"
-  region: "us-east-1"
-  parameters:
-    temperature: 0.1
-    max_tokens: 2048
-
-# Dependencies
-dependencies:
-  # Core AgentCore dependency
-  - "bedrock-agentcore"
-  
-  # Existing project dependencies
-  - "strands-agents>=0.1.0"
-  - "strands-agents-tools>=0.1.0"
-  - "streamlit>=1.28.0"
-  - "boto3>=1.34.0"
-  - "hypothesis>=6.88.0"
-  - "pytest>=7.4.0"
-  - "python-dotenv>=1.0.0"
-
-# Development Configuration
-development:
-  # Local development server settings
-  port: 8080
-  host: "0.0.0.0"
-  reload: true
-  
-  # Development environment variables
-  environment:
-    LOCAL_DEV: "1"
-    DEBUG_MODE: "true"
-    LOG_LEVEL: "DEBUG"
-
-# Deployment Configuration
-deployment:
-  # AWS deployment settings
-  region: "us-east-1"
-  
-  # IAM permissions required
-  permissions:
-    - "bedrock:InvokeModel"
-    - "bedrock:InvokeModelWithResponseStream"
-    - "logs:CreateLogGroup"
-    - "logs:CreateLogStream"
-    - "logs:PutLogEvents"
-    
-  # VPC configuration (optional)
-  # vpc:
-  #   subnet_ids: []
-  #   security_group_ids: []
-
-# Monitoring and Logging
-monitoring:
-  # CloudWatch logging
-  logging:
-    level: "INFO"
-    format: "json"
-    
-  # Metrics collection
-  metrics:
-    enabled: true
-    namespace: "LocalGuideAI/AgentCore"
-    
-  # Health check configuration
-  health_check:
-    enabled: true
-    interval_seconds: 30
-    timeout_seconds: 10
-
-# Security Configuration
-security:
-  # Authentication settings
-  authentication:
-    type: "iam"  # Options: iam, oauth, api_key
-    
-  # CORS settings for web access
-  cors:
-    enabled: true
-    origins:
-      - "http://localhost:8501"  # Streamlit development
-      - "https://*.amazonaws.com"  # AWS services
-      
-# Custom Configuration for Local Guide AI
-local_guide:
-  # Supported cities
-  cities:
-    - "Madurai"
-    - "Dindigul"
-    
-  # Supported topics
-  topics:
-    - "food"
-    - "transport"
-    - "language"
-    - "safety"
-    - "lifestyle"
-    
-  # Context files
-  context_files:
-    madurai: "context/madurai_context.md"
-    dindigul: "context/dindigul_context.md"
-    
-  # Refusal phrases
-  refusal_phrases:
-    - "This isn't covered in my local context."
-    - "I don't have enough local data to answer that."
-    - "My knowledge is limited to what's in the context file."
-    
-  # System prompt configuration
-  system_prompt:
-    file: ".kiro/system_prompt.txt"
-    enforce_context_supremacy: true
-    enable_tamil_english_mix: true
+agents:
+  local_guide_ai:
+    name: "Local Guide AI"
+    entrypoint: "agentcore_main:app"
+    model:
+      provider: "bedrock"
+      model_id: "us.amazon.nova-premier-v1:0"
+      region: "us-east-1"
+      parameters:
+        temperature: 0.1
+        max_tokens: 2048
+    memory:
+      mode: "NO_MEMORY"
+    environment:
+      AWS_REGION: "us-east-1"
+      DEBUG_MODE: "false"

@@ -108,10 +108,10 @@ async def handle_local_guide_request(request: Dict[str, Any]) -> Dict[str, Any]:
             "error_details": str(e) if os.getenv("DEBUG_MODE") else None
         }
 
-@app.health_check
+# Health check function (not a decorator)
 async def health_check() -> Dict[str, Any]:
     """
-    AgentCore health check endpoint.
+    AgentCore health check function.
     
     Returns system health status for monitoring.
     """
@@ -137,15 +137,15 @@ async def health_check() -> Dict[str, Any]:
             "issues": ["System initialization failed"]
         }
 
-# Additional AgentCore configuration
-app.config.update({
-    "name": "Local Guide AI",
-    "description": "Context-driven AI assistant for Tamil Nadu cities (Madurai and Dindigul)",
-    "version": "2.0.0-agentcore",
-    "author": "Kiro Heroes Challenge Week 5",
-    "supported_cities": ["Madurai", "Dindigul"],
-    "supported_topics": ["food", "transport", "language", "safety", "lifestyle"]
-})
+# Additional AgentCore configuration (remove config.update)
+# app.config.update({
+#     "name": "Local Guide AI",
+#     "description": "Context-driven AI assistant for Tamil Nadu cities (Madurai and Dindigul)",
+#     "version": "2.0.0-agentcore",
+#     "author": "Kiro Heroes Challenge Week 5",
+#     "supported_cities": ["Madurai", "Dindigul"],
+#     "supported_topics": ["food", "transport", "language", "safety", "lifestyle"]
+# })
 
 if __name__ == "__main__":
     # For local development testing
